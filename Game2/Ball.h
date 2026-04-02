@@ -21,4 +21,6 @@ class Ball{
         void bounceTop();
         void bounceBottom();
         void update(Time dt);
+        void reset();
 };
+#pragma endregion

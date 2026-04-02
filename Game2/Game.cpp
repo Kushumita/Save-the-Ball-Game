@@ -2,6 +2,7 @@
 #include "Bat.cpp"
 #include <SFML/Graphics.hpp>
 #include<iostream>
+#include<sstream>
 using namespace std;
 using namespace sf;
 
@@ -19,6 +20,8 @@ int main() {
     int batWidth = 100;
     int batheight = 10;
     int ballRadius =10;
+    int score=0;
+    int lives=3;
 #pragma endregion
 
 #pragma region Loading_Assets
@@ -32,6 +35,14 @@ int main() {
     messageText.setString("Press Enter to start");
     messageText.setOrigin(messageText.getLocalBounds().width/2,messageText.getLocalBounds().height/2);
     messageText.setPosition(resolution.x/2,resolution.y/2);
+
+    Text scoreLivesText;
+    scoreLivesText.setCharacterSize(25);
+    scoreLivesText.setFont(font);
+    scoreLivesText.setFillColor(Color::Cyan);
+    scoreLivesText.setString("Score: 0  Lives: 3");
+    scoreLivesText.setPosition(10,10);
+
 #pragma endregion
 
     Ball ball(resolution.x / 2, 20, ballRadius);
@@ -79,15 +90,29 @@ int main() {
             if(ball.getPosition().y <=0){  //Top panel
                 ball.bounceTop();
             }
-            if(ball.getPosition().y + ball.getBounds().height >=resolution.y){  //Bottom panel
-                ball.bounceTop();
+            if(ball.getPosition().y >= resolution.y){  //Bottom panel
+                ball.reset();
+                lives--;
+                if(lives==0){
+                    gameOver=true;
+                    gamePaused=true;
+                }
             }
+            if(bat.getBounds().intersects(ball.getBounds())){
+                ball.bounceByBat();
+                score++;
+            }
+            std::stringstream ss;
+            ss<<"Score: "<<score<<"  Lives: "<<lives;
+            scoreLivesText.setString(ss.str());
+
 
             ball.update(dt);
             bat.update(dt,resolution);
             
         }
         window.clear();
+        window.draw(scoreLivesText);
         window.draw(ball.getShape());
         window.draw(bat.getShape());
         if(gameOver)

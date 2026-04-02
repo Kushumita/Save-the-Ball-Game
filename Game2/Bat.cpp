@@ -14,6 +14,7 @@ class Bat {
   public:
     Bat(float startX, float startY, int width, int height);
     RectangleShape getShape();
+    FloatRect      getBounds();
     void           moveLeft();
     void           stopLeft();
     void           moveRight();
@@ -30,6 +31,7 @@ Bat::Bat(float startX, float startY, int width, int height) {
 }
 RectangleShape Bat::getShape() { return m_Shape; }
 
+FloatRect Bat::getBounds() {return m_Shape.getGlobalBounds();}
 void Bat::moveLeft() { m_MovingLeft = true; }
 void Bat::stopLeft() { m_MovingLeft = false; }
 void Bat::moveRight() { m_MovingRight = true; }
@@ -38,7 +40,7 @@ void Bat::update(Time dt,Vector2i resolution) {
     if(m_MovingLeft && m_Position.x>0){
         m_Position.x-= m_Speed*dt.asSeconds();
     }
-    if(m_MovingRight && (m_Position.x+m_Shape.getLocalBounds().width)<resolution.x){
+    if(m_MovingRight && (m_Position.x+m_Shape.getGlobalBounds().width)<resolution.x){
         m_Position.x+= m_Speed*dt.asSeconds();
     }
     m_Shape.setPosition(m_Position);
