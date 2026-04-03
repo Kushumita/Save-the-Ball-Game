@@ -7,20 +7,20 @@ class Ball{
         Vector2f m_Position;
         Vector2f m_InitialPosition;
         CircleShape m_Shape;
-        float m_Speed = 1000;
+        float m_Speed =1000;
         float m_DirectionX = 0.5f;
         float m_DirectionY = 0.5f;
 
     public:
-        Ball(float startX,float startY, float radius);
-        Vector2f getPosition();
-        FloatRect getBounds();
+        Ball(float startX,float startY,float radius);
         CircleShape& getShape();
-        void bounceSides();
-        void bounceByBat();
-        void bounceTop();
-        void bounceBottom();
-        void update(Time dt);
+        Vector2f& getPosition();
+        FloatRect getBounds();
+        void reboundTop();
+        void reboundBottom();
+        void reboundSides(Vector2i resolution);
+        void reboundbyBat(int batPos);
         void reset();
+
+        void update(Time dt);
 };
-#pragma endregion
