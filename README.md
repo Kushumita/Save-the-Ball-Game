@@ -59,7 +59,7 @@ cd Save-the-Ball-Game
 ### 3. Compile
 
 ```
-g++ SaveTheBall.cpp -o game
+g++ Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system 
 ```
 
 ### 4. Run
